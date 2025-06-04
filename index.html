@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renu's - Authentic Bangladeshi Cuisine in Cambridge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #F9FAFB; /* A very light gray for overall background */
+        }
+        .font-heading {
+            font-family: 'Playfair Display', serif;
+        }
+        .trim-orange {
+            border-color: #F97316; /* Tailwind orange-500 */
+        }
+        .bg-accent-orange {
+            background-color: #F97316;
+        }
+        .text-accent-orange {
+            color: #F97316;
+        }
+        .hover-bg-accent-orange-dark:hover {
+            background-color: #EA580C; /* Tailwind orange-600 */
+        }
+        .fill-accent-light-green {
+            background-color: #D1FAE5; /* Tailwind green-200 */
+        }
+        .text-accent-light-green { /* For text on dark backgrounds if needed */
+             color: #A7F3D0; /* Tailwind green-300 */
+        }
+        .border-accent-light-green {
+            border-color: #6EE7B7; /* Tailwind green-400 */
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #F97316;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #EA580C;
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Modal styles */
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        .modal-content {
+            transition: transform 0.25s ease;
+        }
+        .modal-overlay {
+            transition: opacity 0.25s ease;
+        }
+        
+        /* Review Card */
+        .review-card {
+            min-height: 180px; /* Ensure cards have a decent height */
+        }
+
+        /* Active Nav Link */
+        .nav-link.active {
+            color: #F97316;
+            font-weight: 600;
+            background-color: #ECFDF5; /* A very light green for active link background */
+        }
+        .nav-link-mobile.active {
+            color: #F97316;
+            font-weight: 600;
+            background-color: #ECFDF5;
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md fixed w-full z-50 top-0">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <a href="#hero" class="text-3xl font-heading text-accent-orange">Renu's</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#hero" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">Home</a>
+                        <a href="#about" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">About Us</a>
+                        <a href="#menu" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">Menu</a>
+                        <a href="#reviews" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">Reviews</a>
+                        <a href="#contact" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">Contact</a>
+                        <a href="#app" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">Our App</a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                     <a href="#" id="order-online-nav" class="bg-accent-orange text-white px-4 py-2.5 rounded-md text-sm font-medium hover-bg-accent-orange-dark transition-colors">Order Online</a>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" id="mobile-menu-button" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-accent-orange hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#hero" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">Home</a>
+                <a href="#about" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">About Us</a>
+                <a href="#menu" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">Menu</a>
+                <a href="#reviews" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">Reviews</a>
+                <a href="#contact" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">Contact</a>
+                <a href="#app" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-accent-orange hover:bg-green-50 transition-colors">Our App</a>
+            </div>
+            <div class="pt-4 pb-3 border-t border-gray-200">
+                <div class="px-2">
+                    <a href="#" id="order-online-mobile" class="block w-full text-center bg-accent-orange text-white px-4 py-3 rounded-md text-base font-medium hover-bg-accent-orange-dark transition-colors">Order Online</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="pt-20 min-h-screen flex items-center bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://www.renus.co.uk/wp-content/uploads/2021/01/RENUS-PHOTOS-53.jpg');">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+            <h1 class="text-5xl md:text-7xl font-heading mb-6 fade-in-up">Welcome to <span class="text-accent-orange">Renu's</span></h1>
+            <p class="text-xl md:text-2xl mb-4 fade-in-up" style="animation-delay: 0.2s;">Experience Traditional Desi Food in the Heart of Cambridge.</p>
+            <p class="text-lg md:text-xl mb-8 fade-in-up" style="animation-delay: 0.4s;">Serving our community since <span class="font-semibold">1995</span>.</p>
+            <div class="space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 fade-in-up" style="animation-delay: 0.6s;">
+                <a href="#menu" class="inline-block bg-accent-orange text-white px-8 py-3 rounded-md text-lg font-medium hover-bg-accent-orange-dark transition-colors shadow-lg">View Our Menu</a>
+                <a href="#contact" class="inline-block bg-transparent border-2 border-white text-white px-8 py-3 rounded-md text-lg font-medium hover:bg-white hover:text-accent-orange transition-colors shadow-lg">Book a Table</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-heading text-gray-800 mb-4 fade-in-up">Our <span class="text-accent-orange">Story</span></h2>
+                <div class="w-24 h-1 bg-accent-orange mx-auto mb-6 fade-in-up" style="animation-delay: 0.1s;"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto fade-in-up" style="animation-delay: 0.2s;">
+                    Established in <strong class="text-accent-orange">1995</strong>, Renu's has been a cornerstone of authentic Bangladeshi and Desi cuisine in Cambridge for nearly <strong class="text-accent-orange">30 years</strong>. Our passion is to bring you the traditional flavours of our homeland, prepared with the freshest ingredients and a lot of love.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-up" style="animation-delay: 0.3s;">
+                    <img src="https://www.renus.co.uk/wp-content/uploads/2021/01/RENUS-PHOTOS-53.jpg" alt="Renu's Restaurant Interior" class="rounded-lg shadow-xl w-full border-4 trim-orange">
+                </div>
+                <div class="fade-in-up" style="animation-delay: 0.4s;">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">A Tradition of Taste</h3>
+                    <p class="text-gray-600 mb-4">
+                        At Renu's, every dish tells a story – a story of family recipes passed down through generations, of aromatic spices carefully selected, and of a culinary heritage we are proud to share. We believe in a warm, welcoming atmosphere where every guest feels like family.
+                    </p>
+                    <p class="text-gray-600 mb-6">
+                        Join us for a dining experience that tantalizes your taste buds and warms your soul. From fiery curries to delicate biryanis, our menu is a celebration of Desi food at its finest.
+                    </p>
+                    <div class="p-4 fill-accent-light-green rounded-lg border-l-4 border-accent-orange">
+                        <p class="text-gray-700 font-medium"><i class="fas fa-utensils text-accent-orange mr-2"></i> "The only place for true Bangladeshi flavours in Cambridge!" - A Happy Customer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-16 md:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-heading text-gray-800 mb-4 fade-in-up">Explore Our <span class="text-accent-orange">Menu</span></h2>
+                <div class="w-24 h-1 bg-accent-orange mx-auto mb-6 fade-in-up" style="animation-delay: 0.1s;"></div>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto fade-in-up" style="animation-delay: 0.2s;">
+                    Discover a wide range of delectable dishes, from classic curries to our chef's special creations.
+                </p>
+            </div>
+            <div class="text-center space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 mb-12 fade-in-up" style="animation-delay: 0.3s;">
+                <button id="view-full-menu-btn" class="bg-accent-orange text-white px-8 py-3 rounded-md text-lg font-medium hover-bg-accent-orange-dark transition-colors shadow-md">View Full Menu</button>
+                <button id="view-lunch-menu-btn" class="border-2 trim-orange text-accent-orange px-8 py-3 rounded-md text-lg font-medium hover:bg-orange-50 transition-colors shadow-md">View Lunch Menu</button>
+            </div>
+
+            <!-- Menu items display area (Interactive: items could be loaded here) -->
+            <div id="menu-items-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Placeholder Menu Items -->
+                <div class="bg-white rounded-lg shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 border-t-4 trim-orange fade-in-up" style="animation-delay: 0.4s;">
+                    <img src="https://www.spicebangla.com/wp-content/uploads/2024/04/chicken-tikka-masala.jpg" alt="Chicken Tikka Masala" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Chicken Tikka Masala</h3>
+                        <p class="text-gray-600 text-sm mb-3">A British favourite with a Renu's twist. Creamy and flavourful.</p>
+                        <p class="text-lg font-bold text-accent-orange">£12.95</p>
+                        <button class="mt-3 w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition-colors text-sm menu-item-details-btn" data-item-name="Chicken Tikka Masala" data-item-description="Tender chicken pieces marinated in yogurt and spices, cooked in a rich, creamy tomato-based sauce. Served with a hint of fenugreek." data-item-price="£12.95" data-item-image="https://placehold.co/600x400/F97316/FFFFFF?text=Chicken+Tikka+Masala">View Details</button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 border-t-4 trim-orange fade-in-up" style="animation-delay: 0.5s;">
+                    <img src="https://bonmasala.com/wp-content/uploads/2022/10/mutton-biriyani-recipe.jpeg" alt="Lamb Biryani" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Lamb Biryani</h3>
+                        <p class="text-gray-600 text-sm mb-3">Aromatic basmati rice cooked with tender lamb and exotic spices.</p>
+                        <p class="text-lg font-bold text-accent-orange">£14.50</p>
+                         <button class="mt-3 w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition-colors text-sm menu-item-details-btn" data-item-name="Lamb Biryani" data-item-description="Fragrant basmati rice slow-cooked with succulent pieces of lamb, infused with saffron, cardamom, and a blend of traditional spices. Served with a side of raita." data-item-price="£14.50" data-item-image="https://placehold.co/600x400/6EE7B7/333333?text=Lamb+Biryani">View Details</button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300 border-t-4 trim-orange fade-in-up" style="animation-delay: 0.6s;">
+                    <img src="https://www.unileverfoodsolutions.com.au/dam/global-ufs/mcos/anz/calcmenu/recipe/vegetables/saag-paneer/saag-paneer-main-header.jpg" alt="Saag Paneer" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Saag Paneer (V)</h3>
+                        <p class="text-gray-600 text-sm mb-3">Fresh spinach and Indian cottage cheese cooked in mild spices.</p>
+                        <p class="text-lg font-bold text-accent-orange">£10.50</p>
+                        <button class="mt-3 w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition-colors text-sm menu-item-details-btn" data-item-name="Saag Paneer (V)" data-item-description="A vegetarian delight featuring fresh spinach pureed and cooked with cubes of Indian cottage cheese (paneer) in a mildly spiced, creamy gravy." data-item-price="£10.50" data-item-image="https://placehold.co/600x400/FDBA74/333333?text=Saag+Paneer">View Details</button>
+                    </div>
+                </div>
+                <!-- Add more placeholder items as needed -->
+            </div>
+             <div class="text-center mt-12 fade-in-up" style="animation-delay: 0.7s;">
+                <a href="#" id="order-online-menu" class="bg-accent-orange text-white px-10 py-4 rounded-md text-xl font-medium hover-bg-accent-orange-dark transition-colors shadow-xl">Order Online Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-heading text-gray-800 mb-4 fade-in-up">What Our <span class="text-accent-orange">Customers Say</span></h2>
+                <div class="w-24 h-1 bg-accent-orange mx-auto mb-6 fade-in-up" style="animation-delay: 0.1s;"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="review-card p-6 fill-accent-light-green rounded-lg shadow-lg border-l-4 border-accent-orange fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/50x50/F97316/FFFFFF?text=JD" alt="Reviewer John D." class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">John D.</h4>
+                            <div class="text-sm text-yellow-500">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Absolutely the best Bangladeshi food in Cambridge! Renu's has been my go-to for years. The flavours are authentic and the service is always friendly."</p>
+                </div>
+                <!-- Review 2 -->
+                <div class="review-card p-6 fill-accent-light-green rounded-lg shadow-lg border-l-4 border-accent-orange fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/50x50/F97316/FFFFFF?text=AS" alt="Reviewer Aisha S." class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Aisha S.</h4>
+                            <div class="text-sm text-yellow-500">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Lovely ambiance and delicious food. The lunch menu is great value for money. Highly recommend the Lamb Karahi!"</p>
+                </div>
+                <!-- Review 3 -->
+                <div class="review-card p-6 fill-accent-light-green rounded-lg shadow-lg border-l-4 border-accent-orange fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/50x50/F97316/FFFFFF?text=MP" alt="Reviewer Michael P." class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Michael P.</h4>
+                            <div class="text-sm text-yellow-500">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"A true gem in Cambridge. Consistent quality and a warm welcome every time. The Chicken Jalfrezi is a must-try."</p>
+                </div>
+            </div>
+             <div class="text-center mt-10 fade-in-up" style="animation-delay: 0.5s;">
+                <a href="#" class="text-accent-orange hover:underline font-medium">Read More Reviews <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Download Section -->
+    <section id="app" class="py-16 md:py-24 bg-gray-800 text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-up">
+                    <h2 class="text-4xl font-heading mb-4">Get Renu's <span class="text-accent-orange">On The Go!</span></h2>
+                    <p class="text-gray-300 mb-6 text-lg">
+                        Download our app for exclusive offers, easy online ordering, and table reservations right at your fingertips.
+                    </p>
+                    <ul class="space-y-2 text-gray-300 mb-8">
+                        <li><i class="fas fa-check-circle text-accent-light-green mr-2"></i> Quick & Easy Ordering</li>
+                        <li><i class="fas fa-check-circle text-accent-light-green mr-2"></i> Exclusive App-Only Deals</li>
+                        <li><i class="fas fa-check-circle text-accent-light-green mr-2"></i> Manage Your Reservations</li>
+                    </ul>
+                    <button id="show-qr-btn" class="bg-accent-orange text-white px-8 py-3 rounded-md text-lg font-medium hover-bg-accent-orange-dark transition-colors">
+                        <i class="fas fa-qrcode mr-2"></i> Show QR Code
+                    </button>
+                </div>
+                <div class="flex justify-center md:justify-end fade-in-up" style="animation-delay: 0.2s;">
+                    <img src="https://www.renus.co.uk/wp-content/uploads/2021/04/Renu-Mobile-App.png" alt="Renu's App Mockup" class="rounded-lg shadow-xl border-4 border-accent-light-green">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 md:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-heading text-gray-800 mb-4 fade-in-up">Get In <span class="text-accent-orange">Touch</span></h2>
+                <div class="w-24 h-1 bg-accent-orange mx-auto mb-6 fade-in-up" style="animation-delay: 0.1s;"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Contact Info Column -->
+                <div class="bg-white p-8 rounded-lg shadow-xl border-t-4 trim-orange fade-in-up" style="animation-delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Contact Information</h3>
+                    <div class="space-y-4 text-gray-600">
+                        <p><i class="fas fa-map-marker-alt text-accent-orange w-6 mr-2"></i> 26 Milton Road, Cambridge, CB4 1JY</p>
+                        <p><i class="fas fa-phone text-accent-orange w-6 mr-2"></i> <a href="tel:01223313233" class="hover:text-accent-orange">01223 313233</a></p>
+                        <p><i class="fas fa-mobile-alt text-accent-orange w-6 mr-2"></i> <a href="tel:01223319999" class="hover:text-accent-orange">01223 319999</a></p>
+                        <p><i class="fas fa-envelope text-accent-orange w-6 mr-2"></i> <a href="mailto:info@renus.co.uk" class="hover:text-accent-orange">info@renus.co.uk</a></p>
+                    </div>
+                    <hr class="my-8 border-gray-200">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Opening Hours</h3>
+                    <div id="opening-status" class="mb-3 text-lg font-semibold">
+                        <!-- Status will be injected by JS -->
+                    </div>
+                    <ul class="space-y-1 text-gray-600">
+                        <li><strong>Sunday - Thursday:</strong> 4:30 PM - 10:30 PM</li>
+                        <li><strong>Friday & Saturday:</strong> 4:30 PM - 11:00 PM</li>
+                        <li><strong>Lunch (Mon, Wed, Thu, Fri, Sat, Sun):</strong> 11:30 AM - 1:30 PM</li>
+                        <li class="text-red-600 font-semibold"><strong>Tuesday: CLOSED</strong> (All day & Lunch)</li>
+                    </ul>
+                </div>
+                <!-- Map/Form Column -->
+                <div class="bg-white p-8 rounded-lg shadow-xl border-t-4 trim-orange fade-in-up" style="animation-delay: 0.3s;">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Find Us Here</h3>
+                    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md mb-6">
+                        <!-- Replace with your actual Google Maps embed code -->
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2444.8367690008627!2d0.1323620156686091!3d52.21519997975716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d87081a88017ef%3A0x8f5f3a93f5f03538!2s26%20Milton%20Rd%2C%20Cambridge%20CB4%201JY%2C%20UK!5e0!3m2!1sen!2sus!4v1620400000000!5m2!1sen!2sus" 
+                            width="100%" 
+                            height="300" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Renu's Restaurant Location Map">
+                        </iframe>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Send us a Message</h3>
+                    <form action="#" method="POST" class="space-y-4">
+                        <div>
+                            <label for="name" class="sr-only">Full Name</label>
+                            <input type="text" name="name" id="name" autocomplete="name" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md" placeholder="Full Name">
+                        </div>
+                        <div>
+                            <label for="email" class="sr-only">Email</label>
+                            <input type="email" name="email" id="email" autocomplete="email" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md" placeholder="Email Address">
+                        </div>
+                        <div>
+                            <label for="phone" class="sr-only">Phone</label>
+                            <input type="text" name="phone" id="phone" autocomplete="tel" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-orange-500 focus:border-orange-500 border-gray-300 rounded-md" placeholder="Phone Number (Optional)">
+                        </div>
+                        <div>
+                            <label for="message" class="sr-only">Message</label>
+                            <textarea id="message" name="message" rows="4" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-orange-500 focus:border-orange-500 border border-gray-300 rounded-md" placeholder="Your Message"></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full flex justify-center py-3 px-6 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-accent-orange hover-bg-accent-orange-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h5 class="text-xl font-heading text-accent-orange mb-4">Renu's</h5>
+                    <p class="text-sm">Authentic Bangladeshi Cuisine in Cambridge. Serving our community with passion since 1995.</p>
+                </div>
+                <div>
+                    <h5 class="text-lg font-semibold text-white mb-4">Quick Links</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#about" class="hover:text-accent-orange transition-colors">About Us</a></li>
+                        <li><a href="#menu" class="hover:text-accent-orange transition-colors">Our Menu</a></li>
+                        <li><a href="#reviews" class="hover:text-accent-orange transition-colors">Customer Reviews</a></li>
+                        <li><a href="#" id="order-online-footer" class="hover:text-accent-orange transition-colors">Order Online</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-semibold text-white mb-4">Contact Us</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><i class="fas fa-map-marker-alt fa-fw mr-2 text-accent-orange"></i>26 Milton Road, CB4 1JY</li>
+                        <li><i class="fas fa-phone fa-fw mr-2 text-accent-orange"></i><a href="tel:01223313233" class="hover:text-accent-orange">01223 313233</a></li>
+                        <li><i class="fas fa-envelope fa-fw mr-2 text-accent-orange"></i><a href="mailto:info@renus.co.uk" class="hover:text-accent-orange">info@renus.co.uk</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-semibold text-white mb-4">Follow Us</h5>
+                    <div class="flex space-x-4">
+                        <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-accent-orange transition-colors"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-accent-orange transition-colors"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-accent-orange transition-colors"><i class="fab fa-twitter fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                <p>&copy; <span id="currentYear"></span> Renu's Restaurant. All Rights Reserved.</p>
+                <p class="mt-1">Designed with <i class="fas fa-heart text-accent-orange"></i> in Cambridge.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- QR Code Modal -->
+    <div id="qr-modal" class="modal fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-75 opacity-0 pointer-events-none">
+        <div class="modal-overlay absolute inset-0"></div>
+        <div class="modal-content bg-white p-6 sm:p-8 rounded-lg shadow-xl w-11/12 max-w-md text-center transform scale-95">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Download Our App!</h3>
+            <p class="text-gray-600 mb-6">Scan the QR code below with your phone to download the Renu's app from your app store.</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.example.com/renus-app-store-link" alt="QR Code for Renu's App" class="mx-auto mb-6 border-4 trim-orange p-1 rounded">
+            <p class="text-sm text-gray-500 mb-2">Or search "Renu's Cambridge" in the App Store / Google Play.</p>
+            <button id="close-qr-modal" class="mt-4 bg-accent-orange text-white px-6 py-2 rounded-md hover-bg-accent-orange-dark transition-colors">Close</button>
+        </div>
+    </div>
+
+    <!-- Menu Item Detail Modal -->
+    <div id="menu-item-modal" class="modal fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-75 opacity-0 pointer-events-none">
+        <div class="modal-overlay absolute inset-0"></div>
+        <div class="modal-content bg-white p-4 sm:p-6 rounded-lg shadow-xl w-11/12 max-w-lg transform scale-95">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modal-item-name" class="text-2xl font-heading text-accent-orange">Item Name</h3>
+                <button id="close-menu-item-modal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <img id="modal-item-image" src="https://placehold.co/600x400/CCCCCC/FFFFFF?text=Dish" alt="Menu Item Image" class="w-full h-64 object-cover rounded-md mb-4">
+            <p id="modal-item-description" class="text-gray-600 mb-4">Detailed description of the menu item...</p>
+            <p id="modal-item-price" class="text-xl font-bold text-accent-orange mb-6">Price</p>
+            <div class="flex justify-end">
+                <button class="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors mr-2">Add to Order</button>
+                <button id="close-menu-item-modal-secondary" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-300 transition-colors">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Menu/Lunch Menu Modal (e.g., for PDF or image view) -->
+    <div id="menu-display-modal" class="modal fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-75 opacity-0 pointer-events-none">
+        <div class="modal-overlay absolute inset-0"></div>
+        <div class="modal-content bg-white p-4 sm:p-6 rounded-lg shadow-xl w-11/12 max-w-3xl h-5/6 transform scale-95">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="menu-modal-title" class="text-2xl font-heading text-accent-orange">Our Menu</h3>
+                <button id="close-menu-display-modal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <div id="menu-modal-content-area" class="h-[calc(100%-80px)] overflow-y-auto">
+                <!-- Content (e.g., an iframe for PDF or an img tag) will be injected here -->
+                 <img src="https://www.renus.co.uk/wp-content/uploads/2024/02/B4-Trifold-Renus-Indian-Takwaway-Menu-1-page-001.jpg" alt="Restaurant Menu" class="w-full h-auto">
+                 <!-- Example for PDF: <iframe src="path/to/your/menu.pdf" width="100%" height="100%"></iframe> -->
+            </div>
+             <div class="text-center mt-4">
+                <button id="close-menu-display-modal-secondary" class="bg-accent-orange text-white px-6 py-2 rounded-md hover-bg-accent-orange-dark transition-colors">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuIcon = mobileMenuButton.querySelector('i');
+
+            mobileMenuButton.addEventListener('click', () => {
+                const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+                mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                mobileMenu.classList.toggle('hidden');
+                if (mobileMenu.classList.contains('hidden')) {
+                    mobileMenuIcon.classList.remove('fa-times');
+                    mobileMenuIcon.classList.add('fa-bars');
+                } else {
+                    mobileMenuIcon.classList.remove('fa-bars');
+                    mobileMenuIcon.classList.add('fa-times');
+                }
+            });
+
+            // Close mobile menu when a link is clicked
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    mobileMenuIcon.classList.remove('fa-times');
+                    mobileMenuIcon.classList.add('fa-bars');
+                });
+            });
+
+            // --- Smooth Scrolling & Active Nav Link ---
+            const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
+            const sections = document.querySelectorAll('section[id]');
+
+            function updateActiveLink() {
+                let currentSectionId = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                     // Adjust for navbar height (approx 80px) and add a small offset
+                    if (pageYOffset >= (sectionTop - sectionHeight / 3 - 80)) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveLink);
+            updateActiveLink(); // Initial call
+
+            navLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            const navbarHeight = document.querySelector('nav').offsetHeight;
+                            const elementPosition = targetElement.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+                            
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: "smooth"
+                            });
+                        }
+                    }
+                });
+            });
+
+
+            // --- Fade-in-up Animation Observer ---
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animatedElements.forEach(el => observer.observe(el));
+
+            // --- Opening Hours Status ---
+            const openingStatusEl = document.getElementById('opening-status');
+            function updateOpeningStatus() {
+                if (!openingStatusEl) return;
+
+                const now = new Date();
+                // const now = new Date("2025-06-04T02:29:00"); // For testing specific times
+                const day = now.getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                const currentTimeInMinutes = hours * 60 + minutes;
+
+                let status = "We are currently <strong class='text-red-600'>CLOSED</strong>.";
+                let nextOpening = "";
+
+                const lunchStart = 11 * 60 + 30; // 11:30 AM
+                const lunchEnd = 13 * 60 + 30;   // 1:30 PM
+                const dinnerStartSunThu = 16 * 60 + 30; // 4:30 PM
+                const dinnerEndSunThu = 22 * 60 + 30;   // 10:30 PM
+                const dinnerStartFriSat = 16 * 60 + 30; // 4:30 PM
+                const dinnerEndFriSat = 23 * 60;      // 11:00 PM
+
+                if (day === 2) { // Tuesday (CLOSED)
+                    status = "We are <strong class='text-red-600'>CLOSED</strong> today (Tuesday).";
+                    nextOpening = "We open tomorrow (Wednesday) at 11:30 AM for Lunch.";
+                } else {
+                    // Check Lunch (Mon, Wed, Thu, Fri, Sat, Sun)
+                    if ([0, 1, 3, 4, 5, 6].includes(day) && currentTimeInMinutes >= lunchStart && currentTimeInMinutes < lunchEnd) {
+                        status = "We are currently <strong class='text-green-600'>OPEN</strong> for Lunch!";
+                    }
+                    // Check Dinner
+                    else if (([0, 1, 3, 4].includes(day)) && currentTimeInMinutes >= dinnerStartSunThu && currentTimeInMinutes < dinnerEndSunThu) { // Sun, Mon, Wed, Thu Dinner
+                        status = "We are currently <strong class='text-green-600'>OPEN</strong> for Dinner!";
+                    } else if (([5, 6].includes(day)) && currentTimeInMinutes >= dinnerStartFriSat && currentTimeInMinutes < dinnerEndFriSat) { // Fri, Sat Dinner
+                        status = "We are currently <strong class='text-green-600'>OPEN</strong> for Dinner!";
+                    } else {
+                        // Determine next opening time
+                        if (day === 1 || day === 3 || day === 4) { // Mon, Wed, Thu
+                            if (currentTimeInMinutes < lunchStart) nextOpening = `We open today at 11:30 AM for Lunch.`;
+                            else if (currentTimeInMinutes < dinnerStartSunThu) nextOpening = `We open today at 4:30 PM for Dinner.`;
+                            else nextOpening = `We open tomorrow at 11:30 AM for Lunch.`; // After dinner
+                        } else if (day === 0) { // Sunday
+                            if (currentTimeInMinutes < lunchStart) nextOpening = `We open today at 11:30 AM for Lunch.`;
+                            else if (currentTimeInMinutes < dinnerStartSunThu) nextOpening = `We open today at 4:30 PM for Dinner.`;
+                            else nextOpening = `We open tomorrow (Monday) at 11:30 AM for Lunch.`;
+                        } else if (day === 5 || day === 6) { // Friday, Saturday
+                            if (currentTimeInMinutes < lunchStart) nextOpening = `We open today at 11:30 AM for Lunch.`;
+                            else if (currentTimeInMinutes < dinnerStartFriSat) nextOpening = `We open today at 4:30 PM for Dinner.`;
+                            else { // After dinner on Sat, next is Sun lunch
+                                nextOpening = day === 5 ? `We open tomorrow (Saturday) at 11:30 AM for Lunch.` : `We open tomorrow (Sunday) at 11:30 AM for Lunch.`;
+                            }
+                        }
+                    }
+                }
+                openingStatusEl.innerHTML = `${status} ${nextOpening ? `<br><span class='text-sm text-gray-500'>${nextOpening}</span>` : ''}`;
+            }
+            updateOpeningStatus();
+            setInterval(updateOpeningStatus, 60000); // Update every minute
+
+            // --- Modal Handling ---
+            function setupModal(modalId, openButtonIds, closeButtonIds) {
+                const modal = document.getElementById(modalId);
+                if (!modal) return;
+                const modalContent = modal.querySelector('.modal-content');
+                const modalOverlay = modal.querySelector('.modal-overlay');
+
+                const openModal = () => {
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modalContent.classList.remove('scale-95');
+                    modalContent.classList.add('scale-100');
+                };
+
+                const closeModal = () => {
+                    modalContent.classList.remove('scale-100');
+                    modalContent.classList.add('scale-95');
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                };
+
+                openButtonIds.forEach(buttonId => {
+                    const openButton = document.getElementById(buttonId);
+                    if (openButton) openButton.addEventListener('click', openModal);
+                });
+                
+                closeButtonIds.forEach(buttonId => {
+                    const closeButton = document.getElementById(buttonId);
+                    if (closeButton) closeButton.addEventListener('click', closeModal);
+                });
+
+                if (modalOverlay) {
+                    modalOverlay.addEventListener('click', closeModal);
+                }
+                // Close modal on escape key
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape' && !modal.classList.contains('pointer-events-none')) {
+                        closeModal();
+                    }
+                });
+            }
+
+            // QR Code Modal
+            setupModal('qr-modal', ['show-qr-btn'], ['close-qr-modal']);
+
+            // Menu Item Detail Modal
+            const menuItemModal = document.getElementById('menu-item-modal');
+            const modalItemName = document.getElementById('modal-item-name');
+            const modalItemImage = document.getElementById('modal-item-image');
+            const modalItemDescription = document.getElementById('modal-item-description');
+            const modalItemPrice = document.getElementById('modal-item-price');
+
+            document.querySelectorAll('.menu-item-details-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    modalItemName.textContent = this.dataset.itemName;
+                    modalItemImage.src = this.dataset.itemImage;
+                    modalItemImage.alt = this.dataset.itemName;
+                    modalItemDescription.textContent = this.dataset.itemDescription;
+                    modalItemPrice.textContent = this.dataset.itemPrice;
+                    
+                    menuItemModal.classList.remove('opacity-0', 'pointer-events-none');
+                    menuItemModal.querySelector('.modal-content').classList.remove('scale-95');
+                    menuItemModal.querySelector('.modal-content').classList.add('scale-100');
+                });
+            });
+            setupModal('menu-item-modal', [], ['close-menu-item-modal', 'close-menu-item-modal-secondary']);
+
+
+            // Full Menu/Lunch Menu Display Modal
+            const menuDisplayModal = document.getElementById('menu-display-modal');
+            const menuModalTitle = document.getElementById('menu-modal-title');
+            const menuModalContentArea = document.getElementById('menu-modal-content-area');
+
+            const viewFullMenuBtn = document.getElementById('view-full-menu-btn');
+            const viewLunchMenuBtn = document.getElementById('view-lunch-menu-btn');
+
+            if (viewFullMenuBtn) {
+                viewFullMenuBtn.addEventListener('click', () => {
+                    menuModalTitle.textContent = "Our Full Menu";
+                    // Replace with actual full menu content (e.g., PDF iframe or image)
+                    menuModalContentArea.innerHTML = `<img src="https://sdmntpreastus2.oaiusercontent.com/files/00000000-3974-61f6-8645-317c2723867c/raw?se=2025-06-04T12%3A21%3A35Z&sp=r&sv=2024-08-04&sr=b&scid=fe4afd37-d91c-5ece-b43b-7b34e48f5d56&skoid=02b7f7b5-29f8-416a-aeb6-99464748559d&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-06-04T11%3A10%3A23Z&ske=2025-06-05T11%3A10%3A23Z&sks=b&skv=2024-08-04&sig=phHTU7Bc8LbW8POnx5TJq1o3MOJgzQbUQHZGCCJVjRs%3D" alt="Full Menu" class="w-full h-auto">`;
+                    menuDisplayModal.classList.remove('opacity-0', 'pointer-events-none');
+                    menuDisplayModal.querySelector('.modal-content').classList.remove('scale-95');
+                    menuDisplayModal.querySelector('.modal-content').classList.add('scale-100');
+                });
+            }
+            if (viewLunchMenuBtn) {
+                viewLunchMenuBtn.addEventListener('click', () => {
+                    menuModalTitle.textContent = "Our Lunch Menu";
+                    // Replace with actual lunch menu content
+                    menuModalContentArea.innerHTML = `<img src="https://sdmntpreastus2.oaiusercontent.com/files/00000000-f0cc-61f6-9320-24eea16eb7fe/raw?se=2025-06-04T12%3A27%3A27Z&sp=r&sv=2024-08-04&sr=b&scid=3af599f8-b189-505d-bf1c-b03b0f607a7f&skoid=02b7f7b5-29f8-416a-aeb6-99464748559d&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-06-04T11%3A24%3A39Z&ske=2025-06-05T11%3A24%3A39Z&sks=b&skv=2024-08-04&sig=ksrDpOG7HR4CPq0tsqCici5ZDYkAk1oG4OYygM8K/qg%3D" alt="Lunch Menu" class="w-full h-auto">`;
+                    menuDisplayModal.classList.remove('opacity-0', 'pointer-events-none');
+                    menuDisplayModal.querySelector('.modal-content').classList.remove('scale-95');
+                    menuDisplayModal.querySelector('.modal-content').classList.add('scale-100');
+                });
+            }
+            setupModal('menu-display-modal', [], ['close-menu-display-modal', 'close-menu-display-modal-secondary']);
+
+
+            // --- Order Online Buttons ---
+            // This is a placeholder. In a real app, this would link to an online ordering system.
+            const orderOnlineLinks = ['order-online-nav', 'order-online-mobile', 'order-online-menu', 'order-online-footer'];
+            orderOnlineLinks.forEach(id => {
+                const link = document.getElementById(id);
+                if (link) {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        // Replace with actual online ordering URL or system
+                        alert("Redirecting to our online ordering system (placeholder)."); 
+                        // window.location.href = "YOUR_ONLINE_ORDERING_URL";
+                    });
+                }
+            });
+            
+            // --- Footer Current Year ---
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>
